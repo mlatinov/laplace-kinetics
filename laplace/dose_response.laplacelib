@@ -1,0 +1,166 @@
+/*
+ * Laplace Kinetics Functions Library Dose-response Module
+ * ============================================================================
+ *
+ * Dose-response / Pharmacology
+ *
+ * Parametric nonlinear functions commonly used for:
+ *   - dose-response modeling
+ *   - pharmacological effect and inhibition models
+ *   - receptor binding and cooperativity
+ *   - biological assay calibration
+ *
+ * Functions:
+ *
+ * 1. Emax
+ *    E0 + (Emax * x) / (EC50 + x)
+ *
+ * 2. Sigmoid Emax / Hill
+ *    E0 + (Emax * x^h) / (EC50^h + x^h)
+ *
+ * 3. Four-parameter logistic (4PL)
+ *    d + (a - d) / (1 + (x / c)^b)
+ *
+ * 4. Imax
+ *    E0 - (Imax * x) / (IC50 + x)
+ *
+ * 5. Inhibitory Emax
+ *    E0 - (Imax * x^h) / (IC50^h + x^h)
+ *
+ * 6. Logistic dose-response
+ *    L + (U - L) / (1 + exp(-k * (x - x0)))
+ *
+ * 7. Hill equation
+ *    x^n / (K^n + x^n)
+ *
+ * ============================================================================
+ */
+
+
+// ============================================================================
+// EMAX DOSE-RESPONSE
+// ============================================================================
+// @laplace
+// @brief Parametric Emax dose-response function.
+// @param E0   real, Baseline response when the dose or exposure x is zero.
+// @param Emax real, Maximum effect relative to the baseline response. The asymptotic response as x approaches infinity is E0 + Emax.
+// @param x    real, Dose, concentration, exposure, or other predictor variable.
+// @param EC50 real, Dose or concentration producing 50% of the maximum effect above baseline.
+// @return     real, Predicted response.
+// @example mu = mechanistic::emax(E0, Emax, x, EC50);
+// @math
+// E_0 + \frac{E_{\max}x}{EC_{50}+x}
+real emax(real E0, real Emax, real x, real EC50) {
+    return E0 + ((Emax * x) / (EC50 + x));
+}
+
+
+// ============================================================================
+// SIGMOID EMAX / HILL
+// ============================================================================
+// @laplace
+// @brief Sigmoid Emax (Hill) dose-response function.
+// @param E0   real, Baseline response when the dose or exposure x is zero.
+// @param Emax real, Maximum effect relative to the baseline response.
+// @param x    real, Dose, concentration, exposure, or other predictor variable.
+// @param EC50 real, Dose or concentration producing 50% of the maximum effect above baseline.
+// @param h    real, Hill coefficient controlling the steepness of the dose-response curve around EC50.
+// @return     real, Predicted response.
+// @example mu = mechanistic::sigmoid_emax(E0, Emax, x, EC50, h);
+// @math 
+// E_0 + \frac{E_{\max}x^h}{EC_{50}^h+x^h}
+real sigmoid_emax(real E0, real Emax, real x, real EC50, real h) {
+    return E0 + ((Emax * pow(x, h)) / (pow(EC50, h) + pow(x, h)));
+}
+
+
+// ============================================================================
+// FOUR-PARAMETER LOGISTIC (4PL)
+// ============================================================================
+// @laplace
+// @brief Four-parameter logistic dose-response function.
+// @param d real, Lower asymptotic response of the curve.
+// @param a real, Upper asymptotic response of the curve.
+// @param x real, Dose, concentration, exposure, or other predictor variable.
+// @param b real, Slope parameter controlling the steepness and direction of the transition between the lower and upper asymptotes.
+// @param c real, Inflection-point parameter representing the value of x at which the response is halfway between the two asymptotes.
+// @return  real, Predicted response.
+// @example mu = mechanistic::four_pl(d, a, x, b, c);
+// @math
+// d + \frac{a-d}{1+(x/c)^b}
+real four_pl(real d, real a, real x, real b, real c) {
+    return d + ((a - d) / (1 + pow(x / c, b)));
+}
+
+
+// ============================================================================
+// IMAX DOSE-RESPONSE
+// ============================================================================
+// @laplace
+// @brief Parametric Imax inhibitory dose-response function.
+// @param E0   real, Baseline response in the absence of inhibition.
+// @param Imax real, Maximum reduction in response relative to the baseline.
+// @param x    real, Inhibitor dose, concentration, exposure, or other predictor.
+// @param IC50 real, Inhibitor dose or concentration producing 50% of the maximum inhibitory effect.
+// @return     real, Predicted response.
+// @example mu = mechanistic::imax(E0, Imax, x, IC50);
+// @math
+// E_0 - \frac{I_{\max}x}{IC_{50}+x}
+real imax(real E0, real Imax, real x, real IC50) {
+    return E0 - ((Imax * x) / (IC50 + x));
+}
+
+
+// ============================================================================
+// INHIBITORY EMAX
+// ============================================================================
+// @laplace
+// @brief Sigmoid inhibitory Emax dose-response function.
+// @param E0   real, Baseline response in the absence of inhibition.
+// @param Imax real, Maximum reduction in response relative to the baseline.
+// @param x    real, Inhibitor dose, concentration, exposure, or other predictor.
+// @param IC50 real, Inhibitor dose or concentration producing 50% of the maximum inhibitory effect.
+// @param h    real, Hill coefficient controlling the steepness of the inhibitory response around IC50.
+// @return     real, Predicted response.
+// @example mu = mechanistic::inhibitory_emax(E0, Imax, x, IC50, h);
+// @math
+// E_0 - \frac{I_{\max}x^h}{IC_{50}^h+x^h}
+real inhibitory_emax(real E0, real Imax, real x, real IC50, real h) {
+    return E0 - ((Imax * pow(x, h)) /
+                 (pow(IC50, h) + pow(x, h)));
+}
+
+
+// ============================================================================
+// LOGISTIC DOSE-RESPONSE
+// ============================================================================
+// @laplace
+// @brief Logistic dose-response function.
+// @param L  real, Lower asymptotic response of the curve.
+// @param U  real, Upper asymptotic response of the curve.
+// @param x  real, Dose, concentration, exposure, or other predictor variable.
+// @param k  real, Growth-rate or slope parameter controlling the steepness and direction of the transition.
+// @param xo real, Inflection point; the value of x at which the response  is halfway between L and U.
+// @return   real, Predicted response.
+// @example mu = mechanistic::logistic_dose_response(L, U, x, k, xo);
+// @math
+// L + \frac{U-L}{1+\exp[-k(x-x_0)]}
+real logistic_dose_response(real L, real U, real x, real k, real xo) {
+    return L + ((U - L) / (1 + exp(-k * (x - xo))));
+}
+
+// ============================================================================
+// HILL EQUATION
+// ============================================================================
+// @laplace
+// @brief Hill equation for binding and cooperative response.
+// @param x real, Ligand concentration, substrate concentration, or other predictor representing the quantity driving the response.
+// @param n real, Hill coefficient controlling the steepness of the response and the degree of apparent cooperativity.
+// @param K real, Half-saturation or dissociation-like constant controlling the value of x at which the response reaches approximately 50%.
+// @return  real, Fractional response or occupancy between zero and one for positive x, K, and n.
+// @example mu = mechanistic::hill(x, n, K);
+// @math
+// \frac{x^n}{K^n+x^n}
+real hill(real x, real n, real K) {
+    return pow(x, n) / (pow(K, n) + pow(x, n));
+}
