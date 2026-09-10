@@ -1,0 +1,138 @@
+ /*
+   Laplace Kinetics Library Module Pharma
+   ============================================================================
+  
+   Pharmacokinetic Functions
+  
+   Closed-form deterministic functions commonly used for:
+    - one- and two-compartment PK models
+    - intravenous bolus administration
+    - intravenous infusion
+    - first-order absorption
+    - extravascular dosing
+    - Bateman kinetics
+    - nonlinear and saturable elimination
+
+   Useful Derived Quantities : 
+    - Half-life
+    - Clearance from elimination rate
+    - Elimination rate from clearance
+    - Steady-state concentration during constant infusion
+    - Loading dose
+    - Maintenance dose rate
+
+   Functions:
+  
+   1. One-compartment IV bolus
+      C(t) = (D / V) * exp(-k * t)
+  
+   2. One-compartment IV infusion
+      C(t) = (R0 / (V * k)) * (1 - exp(-k * t))
+  
+   3. One-compartment IV post-infusion
+      C(t) = (R0 / (V * k)) * (1 - exp(-k * T))
+             * exp(-k * (t - T))
+  
+   4. Two-compartment IV bolus
+      C(t) = A * exp(-alpha * t) + B * exp(-beta * t)
+  
+   5. Bateman function
+      C(t) = (F * D * ka) / (V * (ka - k))
+             * (exp(-k * t) - exp(-ka * t))
+  
+   6. First-order absorption
+      A(t) = D * exp(-ka * t)
+  
+   ============================================================================
+*/
+
+//@laplace
+//@brief One-compartment IV bolus
+//@param real D Dose administered.
+//@param real V Volume of distribution.
+//@param real k First-order elimination rate constant.
+//@param real t Time since administration.
+//@return real Drug concentration at time t.
+//@example mu = kinetics::one_comp_iv_bolus(D, V, k, t);
+//@math
+// C(t) = \frac{D}{V}e^{-kt}
+real one_comp_iv_bolus(real D, real V, real k, real t) {
+    return (D / V) * exp(-k * t);
+}
+
+
+//@laplace
+//@brief One-compartment IV infusion
+//@param real R0 Constant infusion rate.
+//@param real V Volume of distribution.
+//@param real k First-order elimination rate constant.
+//@param real t Time since the start of infusion.
+//@return real Drug concentration during infusion. 
+//@example mu = kinetics::one_comp_iv_infusion(R0, V, k, t);
+//@math
+// C(t) = \frac{R_0}{Vk}(1-e^{-kt})
+real one_comp_iv_infusion(real R0, real V, real k, real t) {
+    return (R0 / (V * k)) * (1 - exp(-k * t));
+}
+
+
+//@laplace
+//@brief One-compartment IV post-infusion
+//@param real R0 Constant infusion rate.
+//@param real V Volume of distribution.
+//@param real k First-order elimination rate constant.
+//@param  real T Duration of the infusion.
+//@param  real t Time since the start of infusion. Must satisfy t > T.
+//@return real  Drug concentration after the infusion has stopped.
+//@example mu = kinetics::one_comp_iv_post_infusion(R0, V, k, T, t);
+//@math
+// C(t) = \frac{R_0}{Vk}(1-e^{-kT})e^{-k(t-T)}
+real one_comp_iv_post_infusion(real R0, real V, real k, real T, real t){
+    return (R0 / (V * k)) * (1 - exp(-k * T)) * exp(-k * (t - T));
+}
+
+
+//@laplace
+//@brief Two-compartment IV bolus
+//@param real A Distribution-phase coefficient.
+//@param real B Elimination-phase coefficient.
+//@param real alpha Distribution rate constant.
+//@param real beta  Terminal elimination rate constant.
+//@param real t Time since administration.
+//@return real Drug concentration at time t.
+//@example mu = kinetics::two_comp_iv_bolus(A, B, alpha, beta, t);
+//@math
+// C(t) = Ae^{-\alpha t} + Be^{-\beta t}
+real two_comp_iv_bolus(real A, real B, real alpha, real beta, real t){
+    return A * exp(-alpha * t) + B * exp(-beta * t);
+}
+
+
+//@laplace
+//@brief Bateman function
+//@param real F Bioavailability fraction.
+//@param real D Administered dose.
+//@param real V Volume of distribution.
+//@param real ka First-order absorption rate constant.
+//@param  real k First-order elimination rate constant.
+//@param  real t Time since administration.
+//@return real Drug concentration following first-order absorption and first-order elimination.
+//@example mu = kinetics::bateman(F, D, V, ka, k, t);
+//@math
+// C(t) = \frac{FDk_a}{V(k_a-k)} / (e^{-kt}-e^{-k_at})
+real bateman(real F, real D, real V, real ka, real k, real t){
+    return ((F * D * ka) / (V * (ka - k))) * (exp(-k * t) - exp(-ka * t));
+}
+
+//@laplace
+//@brief First-order absorption
+//@param  real D Initial amount of drug available for absorption.
+//@param  real ka First-order absorption rate constant.
+//@param  real t Time since administration.
+//@return real Amount of drug remaining at the absorption site.
+//@example amount = kinetics::first_order_absorption(D, ka, t);
+//@math
+// A(t) = De^{-k_at}
+real first_order_absorption(real D, real ka, real t) {
+    return D * exp(-ka * t);
+}
