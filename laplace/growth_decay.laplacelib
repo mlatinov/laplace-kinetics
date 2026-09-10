@@ -1,0 +1,136 @@
+/*
+ * Laplace Kinetics Library Growth and Decay Module
+ * ============================================================================
+ *
+ * Growth and Decay Functions
+ *
+ * Parametric nonlinear functions commonly used for:
+ *   - biological and population growth
+ *   - pharmacokinetic elimination
+ *   - decay processes
+ *   - organismal growth and development
+ *   - multi-phase exponential processes
+ *
+ * Functions:
+ *
+ * 1. Exponential growth
+ *    A * exp(k * x)
+ *
+ * 2. Exponential decay
+ *    A * exp(-k * x)
+ *
+ * 3. Logistic growth
+ *    K / (1 + A * exp(-r * x))
+ *
+ * 4. Gompertz growth
+ *    A * exp(-B * exp(-k * x))
+ *
+ * 5. Von Bertalanffy growth
+ *    Linf * (1 - B * exp(-k * t))^3
+ *
+ * 6. Biexponential decay
+ *    A * exp(-k1 * t) + B * exp(-k2 * t)
+ *
+ * ============================================================================
+ */
+
+// ============================================================================
+// EXPONENTIAL GROWTH
+// ============================================================================
+// @laplace
+// @brief Exponential growth function.
+// @param A real, Initial or baseline value of the quantity at x = 0.
+// @param k real, Growth-rate parameter controlling how rapidly the quantity increases with x. Positive values produce exponential growth.
+// @param x real, Time, age, exposure, or other predictor variable.
+// @return real, Predicted value of the exponentially growing quantity.
+// @example mu = kinetics::exponential_growth(A, k, x);
+// @math
+// A e^{kx}
+real exponential_growth(real A, real k, real x) {
+    return A * exp(k * x);
+}
+
+// ============================================================================
+// EXPONENTIAL DECAY
+// ============================================================================
+// @laplace
+// @brief Exponential decay function.
+// @param A real, Initial or baseline value of the quantity at x = 0.
+// @param k real, Decay-rate parameter controlling how rapidly the quantity decreases with x. Positive values produce exponential decay.
+// @param x real, Time, age, or other predictor variable.
+// @return  real, Predicted value of the exponentially decaying quantity.
+// @example mu = kinetics::exponential_decay(A, k, x);
+// @math
+// A e^{-kx}
+real exponential_decay(real A, real k, real x) {
+    return A * exp(-k * x);
+}
+
+// ============================================================================
+// LOGISTIC GROWTH
+// ============================================================================
+// @laplace
+// @brief Logistic growth function.
+// @param K real, Carrying capacity or upper asymptotic value approached by the quantity as x increases.
+// @param A real, Parameter controlling the position of the growth curve.
+// @param r real, Intrinsic growth-rate parameter controlling the steepness
+// @param x real, Time, age, or other predictor variable.
+// @return real, Predicted value following a sigmoidal logistic growth curve.
+// @example mu = kinetics::logistic_growth(K, A, r, x);
+// @math
+// \frac{K}{1+A e^{-rx}}
+real logistic_growth(real K, real A, real r, real x) {
+    return K / (1 + A * exp(-r * x));
+}
+
+// ============================================================================
+// GOMPERTZ GROWTH
+// ============================================================================
+// @laplace
+// @brief Gompertz growth function.
+// @param A real, Upper asymptotic value approached by the quantity as x increases.
+// @param B real, Parameter controlling the position of the growth curve and therefore its value at x = 0.
+// @param k real, Growth-rate parameter controlling how rapidly the curve approaches its upper asymptote.
+// @param x real, Time, age, or other predictor variable.
+// @return  real, Predicted value following a Gompertz growth curve.
+// @example mu = kinetics::gompertz(A, B, k, x);
+// @math
+// A e^{-B e^{-kx}}
+real gompertz(real A, real B, real k, real x) {
+    return A * exp(-B * exp(-k * x));
+}
+
+// ============================================================================
+// BIEXPONENTIAL DECAY
+// ============================================================================
+// @laplace
+// @brief Biexponential decay function.
+// @param A  real, Amplitude or contribution of the first exponential component.
+// @param B  real, Amplitude or contribution of the second exponential component.
+// @param k1 real, Decay-rate constant of the first exponential component.
+// @param k2 real, Decay-rate constant of the second exponential component.
+// @param t  real, Time or elapsed time since the initial measurement.
+// @return   real, Combined value of two exponential decay processes.
+// @example mu = kinetics::biexponential(A, B, k1, k2, t);
+// @math
+// A e^{-k_1t} + B e^{-k_2t}
+real biexponential(real A, real B, real k1, real k2, real t) {
+    return A * exp(-k1 * t) + B * exp(-k2 * t);
+}
+
+// ============================================================================
+// VON BERTALANFFY GROWTH
+// ============================================================================
+// @laplace
+// @brief Von Bertalanffy growth function
+// @param Linf real, Asymptotic size approached by the organism as time increases indefinitely.
+// @param B real, Parameter controlling the position of the growth curve and its relationship to the theoretical size at t = 0.
+// @param k real, Growth-rate parameter controlling how rapidly the organism approaches its asymptotic size.
+// @param t real, Age or elapsed time.
+// @return  real, Predicted organism size at time t.
+// @example mu = kinetics::von_bertalanffy(Linf, B, k, t);
+// @math
+// L_{\infty}(1-B e^{-kt})^3
+real von_bertalanffy(real Linf, real B, real k, real t) {
+    return Linf * pow(1 - B * exp(-k * t), 3);
+}
