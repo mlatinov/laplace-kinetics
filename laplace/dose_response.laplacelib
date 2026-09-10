@@ -47,7 +47,7 @@
 // @param x    real, Dose, concentration, exposure, or other predictor variable.
 // @param EC50 real, Dose or concentration producing 50% of the maximum effect above baseline.
 // @return     real, Predicted response.
-// @example mu = mechanistic::emax(E0, Emax, x, EC50);
+// @example mu = kinetics::emax(E0, Emax, x, EC50);
 // @math
 // E_0 + \frac{E_{\max}x}{EC_{50}+x}
 real emax(real E0, real Emax, real x, real EC50) {
@@ -66,7 +66,7 @@ real emax(real E0, real Emax, real x, real EC50) {
 // @param EC50 real, Dose or concentration producing 50% of the maximum effect above baseline.
 // @param h    real, Hill coefficient controlling the steepness of the dose-response curve around EC50.
 // @return     real, Predicted response.
-// @example mu = mechanistic::sigmoid_emax(E0, Emax, x, EC50, h);
+// @example mu = kinetics::sigmoid_emax(E0, Emax, x, EC50, h);
 // @math 
 // E_0 + \frac{E_{\max}x^h}{EC_{50}^h+x^h}
 real sigmoid_emax(real E0, real Emax, real x, real EC50, real h) {
@@ -85,7 +85,7 @@ real sigmoid_emax(real E0, real Emax, real x, real EC50, real h) {
 // @param b real, Slope parameter controlling the steepness and direction of the transition between the lower and upper asymptotes.
 // @param c real, Inflection-point parameter representing the value of x at which the response is halfway between the two asymptotes.
 // @return  real, Predicted response.
-// @example mu = mechanistic::four_pl(d, a, x, b, c);
+// @example mu = kinetics::four_pl(d, a, x, b, c);
 // @math
 // d + \frac{a-d}{1+(x/c)^b}
 real four_pl(real d, real a, real x, real b, real c) {
@@ -103,7 +103,7 @@ real four_pl(real d, real a, real x, real b, real c) {
 // @param x    real, Inhibitor dose, concentration, exposure, or other predictor.
 // @param IC50 real, Inhibitor dose or concentration producing 50% of the maximum inhibitory effect.
 // @return     real, Predicted response.
-// @example mu = mechanistic::imax(E0, Imax, x, IC50);
+// @example mu = kinetics::imax(E0, Imax, x, IC50);
 // @math
 // E_0 - \frac{I_{\max}x}{IC_{50}+x}
 real imax(real E0, real Imax, real x, real IC50) {
@@ -122,7 +122,7 @@ real imax(real E0, real Imax, real x, real IC50) {
 // @param IC50 real, Inhibitor dose or concentration producing 50% of the maximum inhibitory effect.
 // @param h    real, Hill coefficient controlling the steepness of the inhibitory response around IC50.
 // @return     real, Predicted response.
-// @example mu = mechanistic::inhibitory_emax(E0, Imax, x, IC50, h);
+// @example mu = kinetics::inhibitory_emax(E0, Imax, x, IC50, h);
 // @math
 // E_0 - \frac{I_{\max}x^h}{IC_{50}^h+x^h}
 real inhibitory_emax(real E0, real Imax, real x, real IC50, real h) {
@@ -142,7 +142,7 @@ real inhibitory_emax(real E0, real Imax, real x, real IC50, real h) {
 // @param k  real, Growth-rate or slope parameter controlling the steepness and direction of the transition.
 // @param xo real, Inflection point; the value of x at which the response  is halfway between L and U.
 // @return   real, Predicted response.
-// @example mu = mechanistic::logistic_dose_response(L, U, x, k, xo);
+// @example mu = kinetics::logistic_dose_response(L, U, x, k, xo);
 // @math
 // L + \frac{U-L}{1+\exp[-k(x-x_0)]}
 real logistic_dose_response(real L, real U, real x, real k, real xo) {
@@ -158,7 +158,7 @@ real logistic_dose_response(real L, real U, real x, real k, real xo) {
 // @param n real, Hill coefficient controlling the steepness of the response and the degree of apparent cooperativity.
 // @param K real, Half-saturation or dissociation-like constant controlling the value of x at which the response reaches approximately 50%.
 // @return  real, Fractional response or occupancy between zero and one for positive x, K, and n.
-// @example mu = mechanistic::hill(x, n, K);
+// @example mu = kinetics::hill(x, n, K);
 // @math
 // \frac{x^n}{K^n+x^n}
 real hill(real x, real n, real K) {
