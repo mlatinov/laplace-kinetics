@@ -49,6 +49,9 @@
 real exponential_growth(real A, real k, real x) {
     return A * exp(k * x);
 }
+vector exponential_growth(real A, real k, vector x) {
+    return A * exp(k * x);
+}
 
 // ============================================================================
 // EXPONENTIAL DECAY
@@ -63,6 +66,9 @@ real exponential_growth(real A, real k, real x) {
 // @math
 // A e^{-kx}
 real exponential_decay(real A, real k, real x) {
+    return A * exp(-k * x);
+}
+vector exponential_decay(real A, real k, vector x) {
     return A * exp(-k * x);
 }
 
@@ -82,6 +88,9 @@ real exponential_decay(real A, real k, real x) {
 real logistic_growth(real K, real A, real r, real x) {
     return K / (1 + A * exp(-r * x));
 }
+vector logistic_growth(real K, real A, real r, vector x) {
+    return K / (1 + A * exp(-r * x));
+}
 
 // ============================================================================
 // GOMPERTZ GROWTH
@@ -97,6 +106,9 @@ real logistic_growth(real K, real A, real r, real x) {
 // @math
 // A e^{-B e^{-kx}}
 real gompertz(real A, real B, real k, real x) {
+    return A * exp(-B * exp(-k * x));
+}
+vector gompertz(real A, real B, real k, vector x) {
     return A * exp(-B * exp(-k * x));
 }
 

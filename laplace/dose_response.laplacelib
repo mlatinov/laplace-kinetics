@@ -53,6 +53,9 @@
 real emax(real E0, real Emax, real x, real EC50) {
     return E0 + ((Emax * x) / (EC50 + x));
 }
+vector emax(real E0, real Emax, vector x, real EC50) {
+    return E0 + ((Emax * x) ./ (EC50 + x));
+}
 
 
 // ============================================================================
@@ -71,6 +74,9 @@ real emax(real E0, real Emax, real x, real EC50) {
 // E_0 + \frac{E_{\max}x^h}{EC_{50}^h+x^h}
 real sigmoid_emax(real E0, real Emax, real x, real EC50, real h) {
     return E0 + ((Emax * pow(x, h)) / (pow(EC50, h) + pow(x, h)));
+}
+vector sigmoid_emax(real E0, real Emax, vector x, real EC50, real h) {
+    return E0 + ((Emax * pow(x, h)) ./ (pow(EC50, h) + pow(x, h)));
 }
 
 
@@ -91,7 +97,9 @@ real sigmoid_emax(real E0, real Emax, real x, real EC50, real h) {
 real four_pl(real d, real a, real x, real b, real c) {
     return d + ((a - d) / (1 + pow(x / c, b)));
 }
-
+vector four_pl(real d, real a, vector x, real b, real c) {
+    return d + ((a - d) / (1 + pow(x / c, b)));
+}
 
 // ============================================================================
 // IMAX DOSE-RESPONSE
@@ -108,6 +116,9 @@ real four_pl(real d, real a, real x, real b, real c) {
 // E_0 - \frac{I_{\max}x}{IC_{50}+x}
 real imax(real E0, real Imax, real x, real IC50) {
     return E0 - ((Imax * x) / (IC50 + x));
+}
+vector imax(real E0, real Imax, vector x, real IC50) {
+    return E0 - ((Imax * x) ./ (IC50 + x));
 }
 
 
@@ -126,10 +137,11 @@ real imax(real E0, real Imax, real x, real IC50) {
 // @math
 // E_0 - \frac{I_{\max}x^h}{IC_{50}^h+x^h}
 real inhibitory_emax(real E0, real Imax, real x, real IC50, real h) {
-    return E0 - ((Imax * pow(x, h)) /
-                 (pow(IC50, h) + pow(x, h)));
+    return E0 - ((Imax * pow(x, h)) / (pow(IC50, h) + pow(x, h)));
 }
-
+vector inhibitory_emax(real E0, real Imax, vector x, real IC50, real h) {
+    return E0 - ((Imax * pow(x, h)) ./ (pow(IC50, h) + pow(x, h)));
+}
 
 // ============================================================================
 // LOGISTIC DOSE-RESPONSE
@@ -148,6 +160,9 @@ real inhibitory_emax(real E0, real Imax, real x, real IC50, real h) {
 real logistic_dose_response(real L, real U, real x, real k, real xo) {
     return L + ((U - L) / (1 + exp(-k * (x - xo))));
 }
+vector logistic_dose_response(real L, real U, vector x, real k, real xo) {
+    return L + ((U - L) / (1 + exp(-k * (x - xo))));
+}
 
 // ============================================================================
 // HILL EQUATION
@@ -163,4 +178,7 @@ real logistic_dose_response(real L, real U, real x, real k, real xo) {
 // \frac{x^n}{K^n+x^n}
 real hill(real x, real n, real K) {
     return pow(x, n) / (pow(K, n) + pow(x, n));
+}
+vector hill(vector x, real n, real K) {
+    return pow(x, n) ./ (pow(K, n) + pow(x, n));
 }
