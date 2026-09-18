@@ -1,0 +1,3 @@
+[dependencies.kinetics]
+git = "https://github.com/mlatinov/laplace-kinetics"
+tag = "0.1.0"

@@ -1,0 +1,8 @@
+root = ["kinetics"]
+
+[[package]]
+name = "kinetics"
+version = "0.1.0"
+checksum = "sha256:a570410844eb99188d90df7ee66580310c065be93d6ab6aacbf7bada0b73fddc"
+source = "git+https://github.com/mlatinov/laplace-kinetics@0.1.0"
+dependencies = []
