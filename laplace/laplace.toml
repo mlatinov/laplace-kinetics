@@ -1,5 +1,5 @@
 name = "kinetics"
-version = "0.1.0"
+version = "0.1.1"
 exports = [
     "one_comp_iv_bolus",
     "one_comp_iv_infusion",
