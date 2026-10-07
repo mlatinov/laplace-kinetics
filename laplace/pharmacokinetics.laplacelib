@@ -56,7 +56,7 @@
 //@example mu = kinetics::one_comp_iv_bolus(D, V, k, t);
 //@math
 // C(t) = \frac{D}{V}e^{-kt}
-real one_comp_iv_bolus(real D, real V, real k, real t) {
+pub real one_comp_iv_bolus(real D, real V, real k, real t) {
     return (D / V) * exp(-k * t);
 }
 
@@ -71,7 +71,7 @@ real one_comp_iv_bolus(real D, real V, real k, real t) {
 //@example mu = kinetics::one_comp_iv_infusion(R0, V, k, t);
 //@math
 // C(t) = \frac{R_0}{Vk}(1-e^{-kt})
-real one_comp_iv_infusion(real R0, real V, real k, real t) {
+pub real one_comp_iv_infusion(real R0, real V, real k, real t) {
     return (R0 / (V * k)) * (1 - exp(-k * t));
 }
 
@@ -87,7 +87,7 @@ real one_comp_iv_infusion(real R0, real V, real k, real t) {
 //@example mu = kinetics::one_comp_iv_post_infusion(R0, V, k, T, t);
 //@math
 // C(t) = \frac{R_0}{Vk}(1-e^{-kT})e^{-k(t-T)}
-real one_comp_iv_post_infusion(real R0, real V, real k, real T, real t){
+pub real one_comp_iv_post_infusion(real R0, real V, real k, real T, real t){
     return (R0 / (V * k)) * (1 - exp(-k * T)) * exp(-k * (t - T));
 }
 
@@ -103,7 +103,7 @@ real one_comp_iv_post_infusion(real R0, real V, real k, real T, real t){
 //@example mu = kinetics::two_comp_iv_bolus(A, B, alpha, beta, t);
 //@math
 // C(t) = Ae^{-\alpha t} + Be^{-\beta t}
-real two_comp_iv_bolus(real A, real B, real alpha, real beta, real t){
+pub real two_comp_iv_bolus(real A, real B, real alpha, real beta, real t){
     return A * exp(-alpha * t) + B * exp(-beta * t);
 }
 
@@ -120,7 +120,7 @@ real two_comp_iv_bolus(real A, real B, real alpha, real beta, real t){
 //@example mu = kinetics::bateman(F, D, V, ka, k, t);
 //@math
 // C(t) = \frac{FDk_a}{V(k_a-k)} / (e^{-kt}-e^{-k_at})
-real bateman(real F, real D, real V, real ka, real k, real t){
+pub real bateman(real F, real D, real V, real ka, real k, real t){
     return ((F * D * ka) / (V * (ka - k))) * (exp(-k * t) - exp(-ka * t));
 }
 
@@ -133,6 +133,6 @@ real bateman(real F, real D, real V, real ka, real k, real t){
 //@example amount = kinetics::first_order_absorption(D, ka, t);
 //@math
 // A(t) = De^{-k_at}
-real first_order_absorption(real D, real ka, real t) {
+pub real first_order_absorption(real D, real ka, real t) {
     return D * exp(-ka * t);
 }

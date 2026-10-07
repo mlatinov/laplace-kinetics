@@ -46,10 +46,10 @@
 // @example mu = kinetics::exponential_growth(A, k, x);
 // @math
 // A e^{kx}
-real exponential_growth(real A, real k, real x) {
+pub real exponential_growth(real A, real k, real x) {
     return A * exp(k * x);
 }
-vector exponential_growth(real A, real k, vector x) {
+pub vector exponential_growth(real A, real k, vector x) {
     return A * exp(k * x);
 }
 
@@ -65,10 +65,10 @@ vector exponential_growth(real A, real k, vector x) {
 // @example mu = kinetics::exponential_decay(A, k, x);
 // @math
 // A e^{-kx}
-real exponential_decay(real A, real k, real x) {
+pub real exponential_decay(real A, real k, real x) {
     return A * exp(-k * x);
 }
-vector exponential_decay(real A, real k, vector x) {
+pub vector exponential_decay(real A, real k, vector x) {
     return A * exp(-k * x);
 }
 
@@ -85,10 +85,10 @@ vector exponential_decay(real A, real k, vector x) {
 // @example mu = kinetics::logistic_growth(K, A, r, x);
 // @math
 // \frac{K}{1+A e^{-rx}}
-real logistic_growth(real K, real A, real r, real x) {
+pub real logistic_growth(real K, real A, real r, real x) {
     return K / (1 + A * exp(-r * x));
 }
-vector logistic_growth(real K, real A, real r, vector x) {
+pub vector logistic_growth(real K, real A, real r, vector x) {
     return K / (1 + A * exp(-r * x));
 }
 
@@ -105,10 +105,10 @@ vector logistic_growth(real K, real A, real r, vector x) {
 // @example mu = kinetics::gompertz(A, B, k, x);
 // @math
 // A e^{-B e^{-kx}}
-real gompertz(real A, real B, real k, real x) {
+pub real gompertz(real A, real B, real k, real x) {
     return A * exp(-B * exp(-k * x));
 }
-vector gompertz(real A, real B, real k, vector x) {
+pub vector gompertz(real A, real B, real k, vector x) {
     return A * exp(-B * exp(-k * x));
 }
 
@@ -126,7 +126,7 @@ vector gompertz(real A, real B, real k, vector x) {
 // @example mu = kinetics::biexponential(A, B, k1, k2, t);
 // @math
 // A e^{-k_1t} + B e^{-k_2t}
-real biexponential(real A, real B, real k1, real k2, real t) {
+pub real biexponential(real A, real B, real k1, real k2, real t) {
     return A * exp(-k1 * t) + B * exp(-k2 * t);
 }
 
@@ -143,6 +143,6 @@ real biexponential(real A, real B, real k1, real k2, real t) {
 // @example mu = kinetics::von_bertalanffy(Linf, B, k, t);
 // @math
 // L_{\infty}(1-B e^{-kt})^3
-real von_bertalanffy(real Linf, real B, real k, real t) {
+pub real von_bertalanffy(real Linf, real B, real k, real t) {
     return Linf * pow(1 - B * exp(-k * t), 3);
 }

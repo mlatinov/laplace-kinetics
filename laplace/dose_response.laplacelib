@@ -36,7 +36,6 @@
  * ============================================================================
  */
 
-
 // ============================================================================
 // EMAX DOSE-RESPONSE
 // ============================================================================
@@ -50,13 +49,15 @@
 // @example mu = kinetics::emax(E0, Emax, x, EC50);
 // @math
 // E_0 + \frac{E_{\max}x}{EC_{50}+x}
-real emax(real E0, real Emax, real x, real EC50) {
+pub real emax(real E0, real Emax, real x, real EC50) {
     return E0 + ((Emax * x) / (EC50 + x));
 }
-vector emax(real E0, real Emax, vector x, real EC50) {
+pub vector emax(vector E0, vector Emax, vector x, vector EC50) {
     return E0 + ((Emax * x) ./ (EC50 + x));
 }
-
+pub vector emax(real E0, real Emax, vector x, real EC50) {
+    return E0 + ((Emax * x) ./ (EC50 + x));
+}
 
 // ============================================================================
 // SIGMOID EMAX / HILL
@@ -72,13 +73,12 @@ vector emax(real E0, real Emax, vector x, real EC50) {
 // @example mu = kinetics::sigmoid_emax(E0, Emax, x, EC50, h);
 // @math 
 // E_0 + \frac{E_{\max}x^h}{EC_{50}^h+x^h}
-real sigmoid_emax(real E0, real Emax, real x, real EC50, real h) {
+pub real sigmoid_emax(real E0, real Emax, real x, real EC50, real h) {
     return E0 + ((Emax * pow(x, h)) / (pow(EC50, h) + pow(x, h)));
 }
-vector sigmoid_emax(real E0, real Emax, vector x, real EC50, real h) {
+pub vector sigmoid_emax(real E0, real Emax, vector x, real EC50, real h) {
     return E0 + ((Emax * pow(x, h)) ./ (pow(EC50, h) + pow(x, h)));
 }
-
 
 // ============================================================================
 // FOUR-PARAMETER LOGISTIC (4PL)
@@ -94,10 +94,10 @@ vector sigmoid_emax(real E0, real Emax, vector x, real EC50, real h) {
 // @example mu = kinetics::four_pl(d, a, x, b, c);
 // @math
 // d + \frac{a-d}{1+(x/c)^b}
-real four_pl(real d, real a, real x, real b, real c) {
+pub real four_pl(real d, real a, real x, real b, real c) {
     return d + ((a - d) / (1 + pow(x / c, b)));
 }
-vector four_pl(real d, real a, vector x, real b, real c) {
+pub vector four_pl(real d, real a, vector x, real b, real c) {
     return d + ((a - d) / (1 + pow(x / c, b)));
 }
 
@@ -114,10 +114,10 @@ vector four_pl(real d, real a, vector x, real b, real c) {
 // @example mu = kinetics::imax(E0, Imax, x, IC50);
 // @math
 // E_0 - \frac{I_{\max}x}{IC_{50}+x}
-real imax(real E0, real Imax, real x, real IC50) {
+pub real imax(real E0, real Imax, real x, real IC50) {
     return E0 - ((Imax * x) / (IC50 + x));
 }
-vector imax(real E0, real Imax, vector x, real IC50) {
+pub vector imax(real E0, real Imax, vector x, real IC50) {
     return E0 - ((Imax * x) ./ (IC50 + x));
 }
 
@@ -136,10 +136,10 @@ vector imax(real E0, real Imax, vector x, real IC50) {
 // @example mu = kinetics::inhibitory_emax(E0, Imax, x, IC50, h);
 // @math
 // E_0 - \frac{I_{\max}x^h}{IC_{50}^h+x^h}
-real inhibitory_emax(real E0, real Imax, real x, real IC50, real h) {
+pub real inhibitory_emax(real E0, real Imax, real x, real IC50, real h) {
     return E0 - ((Imax * pow(x, h)) / (pow(IC50, h) + pow(x, h)));
 }
-vector inhibitory_emax(real E0, real Imax, vector x, real IC50, real h) {
+pub vector inhibitory_emax(real E0, real Imax, vector x, real IC50, real h) {
     return E0 - ((Imax * pow(x, h)) ./ (pow(IC50, h) + pow(x, h)));
 }
 
@@ -157,10 +157,10 @@ vector inhibitory_emax(real E0, real Imax, vector x, real IC50, real h) {
 // @example mu = kinetics::logistic_dose_response(L, U, x, k, xo);
 // @math
 // L + \frac{U-L}{1+\exp[-k(x-x_0)]}
-real logistic_dose_response(real L, real U, real x, real k, real xo) {
+pub real logistic_dose_response(real L, real U, real x, real k, real xo) {
     return L + ((U - L) / (1 + exp(-k * (x - xo))));
 }
-vector logistic_dose_response(real L, real U, vector x, real k, real xo) {
+pub vector logistic_dose_response(real L, real U, vector x, real k, real xo) {
     return L + ((U - L) / (1 + exp(-k * (x - xo))));
 }
 
@@ -176,9 +176,9 @@ vector logistic_dose_response(real L, real U, vector x, real k, real xo) {
 // @example mu = kinetics::hill(x, n, K);
 // @math
 // \frac{x^n}{K^n+x^n}
-real hill(real x, real n, real K) {
+pub real hill(real x, real n, real K) {
     return pow(x, n) / (pow(K, n) + pow(x, n));
 }
-vector hill(vector x, real n, real K) {
+pub vector hill(vector x, real n, real K) {
     return pow(x, n) ./ (pow(K, n) + pow(x, n));
 }
